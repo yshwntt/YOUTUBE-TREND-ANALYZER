@@ -4,17 +4,27 @@ import joblib
 import numpy as np
 import re
 # importing joblib to load the trained model
+import sys
+import os
+
+sys.path.append(os.path.abspath("."))
+
+from rag.embed_store import load_vectorstore
+from rag.pipeline import answer_question
+
+
 
 st.set_page_config(page_title="YouTube Trend Analyzer", layout="wide")
 
 st.title("YouTube Trend Analyzer (India)")
 
 # Create tabs
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📊 Analytics",
     "💡 Video Idea Generator",
     "🚀 Performance Predictor",
-    "📈 View Predictor"
+    "📈 View Predictor",
+    "📚 RAG Chatbot"
 ])
 
 st.write("Insights from YouTube trending data to help creators understand what content performs best.")
@@ -410,3 +420,29 @@ with tab4:
         predicted_views = int(np.expm1(predicted_log_views))
 
         st.success(f"Estimated Views: {predicted_views:,}")          
+
+# =========================
+# TAB 5 — RAG CHaTBOT
+# =========================        
+
+with tab5:
+    st.header("RAG Chatbot")
+    st.write("Ask questions based on your documents.")
+
+    # load vectorstore once
+    if "vectorstore" not in st.session_state:
+        st.session_state.vectorstore = load_vectorstore()
+
+    question = st.text_input("Enter your question", key="rag_input")
+
+    if st.button("Ask", key="rag_button") and question:
+        answer, docs = answer_question(st.session_state.vectorstore, question)
+
+        st.subheader("Answer")
+        st.write(answer)
+
+        st.subheader("Sources")
+        for i, doc in enumerate(docs, start=1):
+            st.write(f"**Source {i}:** {doc.metadata}")
+            st.write(doc.page_content[:300])
+            st.write("---") 
