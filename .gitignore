@@ -3,3 +3,7 @@ data/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+models/view_prediction_model.pkl
+models/preupload_performance_model.pkl
+models/high_performance_classifier.pkl
+models/*.pkl
