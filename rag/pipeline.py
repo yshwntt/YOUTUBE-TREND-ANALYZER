@@ -44,7 +44,9 @@ Answer:
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512)
 
     # generate answer
-    outputs = model.generate(**inputs, max_new_tokens=150)
+    # temperature=0.7 — balanced between factual and natural sounding responses
+    # do_sample=True is required to enable temperature-based sampling
+    outputs = model.generate(**inputs, max_new_tokens=150, do_sample=True, temperature=0.7)
 
     # decode answer
     answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
