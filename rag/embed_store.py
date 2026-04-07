@@ -1,7 +1,7 @@
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 
-from rag.config import OPENAI_API_KEY, EMBEDDING_MODEL, VECTORSTORE_DIR
+from rag.config import EMBEDDING_MODEL, VECTORSTORE_DIR
 
 # function to create embeddings model
 def get_embeddings():

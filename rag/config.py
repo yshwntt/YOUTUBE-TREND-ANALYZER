@@ -1,9 +1,4 @@
 from pathlib import Path
-import os
-from dotenv import load_dotenv
-
-# loading environment variables from .env file
-load_dotenv()
 
 # base project folder
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,12 +10,9 @@ DATA_PROCESSED_DIR = BASE_DIR / "data" / "processed"
 # vector db folder
 VECTORSTORE_DIR = BASE_DIR / "vectorstore" / "chroma_db"
 
-# api key
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-# model names
-EMBEDDING_MODEL = "text-embedding-3-small"
-CHAT_MODEL = "gpt-4.1-mini"
+# model names (local, no API required)
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+CHAT_MODEL = "google/flan-t5-small"
 
 # chunking settings
 CHUNK_SIZE = 1000
